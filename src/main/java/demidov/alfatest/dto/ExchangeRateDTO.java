@@ -1,19 +1,20 @@
-package dto;
+package demidov.alfatest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExchangeRateDTO {
 
-    String disclaimer;
-    String licence;
+//    String disclaimer;
+//    String licence;
     Integer timestamp;
     String base;
-    ArrayList<Float> rates;
+    Map<String, Double> rates;
 }

@@ -1,12 +1,10 @@
-package controllers;
+package demidov.alfatest.controllers;
 
-import dto.ExchangeRateDTO;
-import dto.ResponseDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import demidov.alfatest.dto.ExchangeRateDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import servicesImpl.ExchangeRateService;
+import demidov.alfatest.servicesImpl.ExchangeRateService;
 
 @RestController
 public class ExchangeController {

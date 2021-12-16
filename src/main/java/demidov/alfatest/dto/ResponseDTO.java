@@ -1,4 +1,4 @@
-package dto;
+package demidov.alfatest.dto;
 
 public class ResponseDTO {
 }

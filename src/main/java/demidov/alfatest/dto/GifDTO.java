@@ -1,4 +1,4 @@
-package dto;
+package demidov.alfatest.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

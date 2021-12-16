@@ -1,14 +1,12 @@
-package servicesImpl;
+package demidov.alfatest.servicesImpl;
 
-import dto.ExchangeRateDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import demidov.alfatest.dto.ExchangeRateDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import services.ExchangeRateClient;
+import demidov.alfatest.services.ExchangeRateClient;
 
 @Service
-@PropertySource("classpath:application.properties")
 public class ExchangeRateService {
 
     private final ExchangeRateClient client;
