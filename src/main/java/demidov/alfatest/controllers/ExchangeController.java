@@ -4,7 +4,7 @@ import demidov.alfatest.dto.ExchangeRateDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import demidov.alfatest.servicesImpl.ExchangeRateService;
+import demidov.alfatest.services.ExchangeRateService;
 
 @RestController
 public class ExchangeController {

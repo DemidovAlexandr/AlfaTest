@@ -1,10 +1,9 @@
-package demidov.alfatest.servicesImpl;
+package demidov.alfatest.services;
 
 import demidov.alfatest.dto.ExchangeRateDTO;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import demidov.alfatest.services.ExchangeRateClient;
+import demidov.alfatest.feignclients.ExchangeRateClient;
 
 @Service
 public class ExchangeRateService {
@@ -23,4 +22,6 @@ public class ExchangeRateService {
     public ExchangeRateDTO getExchangeRate() {
         return client.getExchangeRate(app_id, symbols);
     }
+
+
 }

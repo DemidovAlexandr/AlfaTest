@@ -1,13 +1,11 @@
-package demidov.alfatest.services;
+package demidov.alfatest.feignclients;
 
 import demidov.alfatest.dto.ExchangeRateDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@PropertySource("classpath:application.properties")
-@FeignClient(name = "exchange",url = "${exchangeServiceURL}")
+@FeignClient(name = "exchangeClient",url = "${exchangeServiceURL}")
 public interface ExchangeRateClient {
 
     @GetMapping
