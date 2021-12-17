@@ -30,7 +30,7 @@ public class GifService {
 
     public String getRandomGifURL() {
         GifResponseDTO responseDTO = getGifResponseDTO();
-        Random random = new Random(47);
+        Random random = new Random();
         int index = random.nextInt(50);
 
         return responseDTO.getOriginalURL().get(index);

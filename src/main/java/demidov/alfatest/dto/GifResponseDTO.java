@@ -22,10 +22,12 @@ public class GifResponseDTO {
 
         for (Object obj : data
              ) {
-            Map<String, Object> datamap = (Map<String, Object>) obj;
-            Map<String, Object> images = (Map<String, Object>) datamap.get("images");
-            Map<String, String> original = (Map<String, String>) images.get("original");
-            originalURL.add(original.get("url"));
+            Map<String, String> datamap = (Map<String, String>) obj;
+
+//            Map<String, Object> images = (Map<String, Object>) datamap.get("images");
+//            Map<String, String> original = (Map<String, String>) images.get("original");
+
+            originalURL.add(datamap.get("embed_url"));
         }
     }
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alfa Test Result</title>
+</head>
+<body>
+<h2>This is the situation:</h2>
+<p></p>
+<iframe th:src="${embedUrl}" style="box-sizing: content-box; width: 640px; height: 480px"></iframe>
+<p></p>
+<span th:text="'Yesterday: '"></span>
+<tr th:each="instance : ${yesterdayRate}">
+    <td th:text="${instance.key}">currency</td>
+    <td th:text="${instance.value}">rate</td>
+</tr>
+<p></p>
+<span th:text="'Today: '"></span>
+<tr th:each="instance : ${todayRate}">
+    <td th:text="${instance.key}">currency</td>
+    <td th:text="${instance.value}">rate</td>
+</tr>
+
+</body>
+</html>
