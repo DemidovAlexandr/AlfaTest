@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 public class GifService {
 
     private final GifClient gifClient;
+    private final QueryService queryService;
     private final String app_id;
-    private final String query;
     private final String rating;
 
-    public GifService(GifClient gifClient, @Value("${giphyAppId}") String app_id, String query, @Value("${giphyRating}") String rating) {
+    public GifService(GifClient gifClient, QueryService queryService, @Value("${giphyAppId}") String app_id, @Value("${giphyRating}") String rating) {
         this.gifClient = gifClient;
+        this.queryService = queryService;
         this.app_id = app_id;
-        this.query = query;
         this.rating = rating;
     }
 }
