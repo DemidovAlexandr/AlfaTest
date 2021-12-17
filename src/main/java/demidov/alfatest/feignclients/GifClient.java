@@ -1,6 +1,6 @@
 package demidov.alfatest.feignclients;
 
-import demidov.alfatest.dto.GifDTO;
+import demidov.alfatest.dto.GifResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface GifClient {
 
     @GetMapping
-    GifDTO getGif(@RequestParam String app_id, @RequestParam String q, @RequestParam String rating);
+    GifResponseDTO getGif(@RequestParam String api_key, @RequestParam String q, @RequestParam String rating);
 }

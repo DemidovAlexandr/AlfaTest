@@ -2,6 +2,8 @@ package demidov.alfatest.services;
 
 import demidov.alfatest.dto.ExchangeRateDTO;
 import demidov.alfatest.feignclients.HistoricalExchangeClient;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import demidov.alfatest.feignclients.RecentExchangeRateClient;
@@ -20,6 +22,14 @@ public class ExchangeRateService {
     private final HistoricalExchangeClient historicalExchangeClient;
     private final String app_id;
     private final String symbols;
+
+    @Getter
+    @Setter
+    private ExchangeRateDTO todayDTO;
+
+    @Getter
+    @Setter
+    private ExchangeRateDTO yesterdayDTO;
 
     public ExchangeRateService(RecentExchangeRateClient recentExchangeRateClient,
                                HistoricalExchangeClient historicalExchangeClient,
@@ -45,13 +55,14 @@ public class ExchangeRateService {
         return yesterdayInUTC.toString();
     }
 
-    public static int compareRates(ExchangeRateDTO today, ExchangeRateDTO yesterday) {
+    public int compareRates(ExchangeRateDTO today, ExchangeRateDTO yesterday) {
+        saveRates(today, yesterday);
 
-        Map<String, Double> todayMap = today.getRates();
-        Map<String, Double> yesterdayMap = yesterday.getRates();
+        Map<String, Double> todayMap = todayDTO.getRates();
+        Map<String, Double> yesterdayMap = yesterdayDTO.getRates();
 
-        Optional<Double> optionalDouble1 = todayMap.values().stream().findFirst();
-        Optional<Double> optionalDouble2 = yesterdayMap.values().stream().findFirst();
+        Optional<Double> optionalDouble1 = Optional.ofNullable(todayMap.get(symbols));
+        Optional<Double> optionalDouble2 = Optional.ofNullable(yesterdayMap.get(symbols));
 
         if (optionalDouble1.isPresent() && optionalDouble2.isPresent()) {
             Double todayRate = optionalDouble1.get();
@@ -60,5 +71,10 @@ public class ExchangeRateService {
             if(todayRate >= yesterdayRate) return 1;
             else return -1;
         } else throw new NoSuchElementException("No rates found for requested currency");
+    }
+
+    public void saveRates(ExchangeRateDTO today, ExchangeRateDTO yesterday) {
+        setTodayDTO(today);
+        setYesterdayDTO(yesterday);
     }
 }

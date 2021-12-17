@@ -24,7 +24,7 @@ public class QueryService {
         ExchangeRateDTO yesterdayExcDTO = exchangeRateService.getHistoricalExchangeRate();
         ExchangeRateDTO todayExcDTO = exchangeRateService.getRecentExchangeRate();
 
-        int result = ExchangeRateService.compareRates(todayExcDTO, yesterdayExcDTO);
+        int result = exchangeRateService.compareRates(todayExcDTO, yesterdayExcDTO);
         if (result > 0) return richQuery;
         else return brokeQuery;
     }

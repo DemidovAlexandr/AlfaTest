@@ -8,7 +8,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class ExchangeRateDTO{
 
-    Integer timestamp;
-    String base;
-    Map<String, Double> rates;
+    private Integer timestamp;
+    private String base;
+    private Map<String, Double> rates;
 }
