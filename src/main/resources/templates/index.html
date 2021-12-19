@@ -5,7 +5,15 @@
     <title>AlfaTest App index page</title>
 </head>
 <body>
-<h2>Let's see how USD is doing?</h2>
+<h2>Let's see how your USD savings are doing?</h2>
+
+<p>Type in a currency code:</p>
+<form th:action="@{/gif}">
+    <input type="text" th:name="currency"/>
+    <input type="submit" value="Send"/>
+</form>
+
+<p>Or check RUB instantly:</p>
 
 <a th:href="@{/gif}">
     <button type="button" style="height: 30px; width: 60px" >Go!</button>

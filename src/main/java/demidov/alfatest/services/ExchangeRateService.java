@@ -1,7 +1,9 @@
 package demidov.alfatest.services;
 
+import demidov.alfatest.config.RequestParameters;
 import demidov.alfatest.dto.ExchangeRateDTO;
 import demidov.alfatest.feignclients.HistoricalExchangeClient;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +22,6 @@ public class ExchangeRateService {
 
     private final RecentExchangeRateClient recentExchangeRateClient;
     private final HistoricalExchangeClient historicalExchangeClient;
-    private final String app_id;
-    private final String symbols;
 
     @Getter
     @Setter
@@ -32,21 +32,21 @@ public class ExchangeRateService {
     private ExchangeRateDTO yesterdayDTO;
 
     public ExchangeRateService(RecentExchangeRateClient recentExchangeRateClient,
-                               HistoricalExchangeClient historicalExchangeClient,
-                               @Value("${exchangeAppId}") String app_id,
-                               @Value("${comparingCurrency}") String symbols) {
+                               HistoricalExchangeClient historicalExchangeClient) {
         this.recentExchangeRateClient = recentExchangeRateClient;
         this.historicalExchangeClient = historicalExchangeClient;
-        this.app_id = app_id;
-        this.symbols = symbols;
     }
 
-    public ExchangeRateDTO getRecentExchangeRate() {
-        return recentExchangeRateClient.getExchangeRate(app_id, symbols);
+    public ExchangeRateDTO getRecentExchangeRate(RequestParameters requestParameters) {
+        String app_id = requestParameters.getExchangeAppId();
+        String currency = requestParameters.getComparingCurrency();
+        return recentExchangeRateClient.getExchangeRate(app_id, currency);
     }
 
-    public ExchangeRateDTO getHistoricalExchangeRate() {
-        return historicalExchangeClient.getHistoricalExcRate(yesterdayDate(), app_id, symbols);
+    public ExchangeRateDTO getHistoricalExchangeRate(RequestParameters requestParameters) {
+        String app_id = requestParameters.getExchangeAppId();
+        String currency = requestParameters.getComparingCurrency();
+        return historicalExchangeClient.getHistoricalExcRate(yesterdayDate(), app_id, currency);
     }
 
     private String yesterdayDate() {
@@ -61,8 +61,8 @@ public class ExchangeRateService {
         Map<String, Double> todayMap = todayDTO.getRates();
         Map<String, Double> yesterdayMap = yesterdayDTO.getRates();
 
-        Optional<Double> optionalDouble1 = Optional.ofNullable(todayMap.get(symbols));
-        Optional<Double> optionalDouble2 = Optional.ofNullable(yesterdayMap.get(symbols));
+        Optional<Double> optionalDouble1 = todayMap.values().stream().findFirst();
+        Optional<Double> optionalDouble2 = yesterdayMap.values().stream().findFirst();
 
         if (optionalDouble1.isPresent() && optionalDouble2.isPresent()) {
             Double todayRate = optionalDouble1.get();

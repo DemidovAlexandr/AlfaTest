@@ -5,7 +5,8 @@
     <title>Alfa Test Result</title>
 </head>
 <body>
-<h2>This is the situation:</h2>
+
+<h2>You are <span th:text="${status}"></span>!</h2>
 <p></p>
 <iframe th:src="${embedUrl}" style="box-sizing: content-box; width: 640px; height: 480px"></iframe>
 <p></p>
@@ -21,5 +22,6 @@
     <td th:text="${instance.value}">rate</td>
 </tr>
 
+<p><a th:href="@{/}">Return to index</a></p>
 </body>
 </html>

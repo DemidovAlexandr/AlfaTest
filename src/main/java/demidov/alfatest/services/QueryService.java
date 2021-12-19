@@ -1,5 +1,6 @@
 package demidov.alfatest.services;
 
+import demidov.alfatest.config.RequestParameters;
 import demidov.alfatest.dto.ExchangeRateDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,24 +9,16 @@ import org.springframework.stereotype.Service;
 public class QueryService {
     private final ExchangeRateService exchangeRateService;
 
-    private final String richQuery;
-    private final String brokeQuery;
-
-
-    public QueryService(ExchangeRateService exchangeRateService,
-                        @Value("${richQuery}") String richQuery,
-                        @Value("${brokeQuery}") String brokeQuery) {
+    public QueryService(ExchangeRateService exchangeRateService) {
         this.exchangeRateService = exchangeRateService;
-        this.richQuery = richQuery;
-        this.brokeQuery = brokeQuery;
     }
 
-    public String getGifQuery() {
-        ExchangeRateDTO yesterdayExcDTO = exchangeRateService.getHistoricalExchangeRate();
-        ExchangeRateDTO todayExcDTO = exchangeRateService.getRecentExchangeRate();
+    public String getGifQuery(RequestParameters requestParameters) {
+        ExchangeRateDTO yesterdayExcDTO = exchangeRateService.getHistoricalExchangeRate(requestParameters);
+        ExchangeRateDTO todayExcDTO = exchangeRateService.getRecentExchangeRate(requestParameters);
 
         int result = exchangeRateService.compareRates(todayExcDTO, yesterdayExcDTO);
-        if (result > 0) return richQuery;
-        else return brokeQuery;
+        if (result > 0) return requestParameters.getRichQuery();
+        else return requestParameters.getBrokeQuery();
     }
 }
