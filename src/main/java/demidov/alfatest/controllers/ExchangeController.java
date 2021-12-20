@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ExchangeController {
@@ -28,7 +27,7 @@ public class ExchangeController {
     }
 
     @GetMapping(path = "/gif")
-    public String getGif(@RequestParam(value = "currency", defaultValue = "RUB") String currency,
+    public String getGif(@RequestParam(value = "currency") String currency,
                                       Model model) {
 
         requestParameters.setComparingCurrency(currency);

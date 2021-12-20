@@ -2,6 +2,7 @@ package demidov.alfatest.services;
 
 import demidov.alfatest.config.RequestParameters;
 import demidov.alfatest.dto.ExchangeRateDTO;
+import demidov.alfatest.exceptions.CommonAppException;
 import demidov.alfatest.feignclients.HistoricalExchangeClient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,12 @@ public class ExchangeRateService {
     @Setter
     private ExchangeRateDTO yesterdayDTO;
 
+    @Getter
+    private String currency;
+
+    @Getter
+    private String app_id;
+
     public ExchangeRateService(RecentExchangeRateClient recentExchangeRateClient,
                                HistoricalExchangeClient historicalExchangeClient) {
         this.recentExchangeRateClient = recentExchangeRateClient;
@@ -38,14 +45,31 @@ public class ExchangeRateService {
     }
 
     public ExchangeRateDTO getRecentExchangeRate(RequestParameters requestParameters) {
-        String app_id = requestParameters.getExchangeAppId();
-        String currency = requestParameters.getComparingCurrency();
+
+        try {
+            app_id = requestParameters.getExchangeAppId();
+            currency = requestParameters.getComparingCurrency();
+        } catch (NullPointerException e) {
+            throw new CommonAppException("Request parameters for exchange service must not be null");
+        }
+
+        if (currency.isBlank()) throw new CommonAppException("Currency code must not be empty");
+
         return recentExchangeRateClient.getExchangeRate(app_id, currency);
     }
 
     public ExchangeRateDTO getHistoricalExchangeRate(RequestParameters requestParameters) {
-        String app_id = requestParameters.getExchangeAppId();
-        String currency = requestParameters.getComparingCurrency();
+
+        try {
+            app_id = requestParameters.getExchangeAppId();
+            currency = requestParameters.getComparingCurrency();
+        } catch (NullPointerException e) {
+            throw new CommonAppException("Request parameters for exchange service must not be null");
+        }
+
+        if (currency.isBlank()) throw new CommonAppException("Currency code must not be empty");
+
+
         return historicalExchangeClient.getHistoricalExcRate(yesterdayDate(), app_id, currency);
     }
 
@@ -70,7 +94,7 @@ public class ExchangeRateService {
 
             if(todayRate >= yesterdayRate) return 1;
             else return -1;
-        } else throw new NoSuchElementException("No rates found for requested currency");
+        } else throw new CommonAppException("No rates found for requested currency");
     }
 
     public void saveRates(ExchangeRateDTO today, ExchangeRateDTO yesterday) {
