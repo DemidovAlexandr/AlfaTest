@@ -5,6 +5,7 @@ import demidov.alfatest.dto.GifResponseDTO;
 import demidov.alfatest.exceptions.CommonAppException;
 import demidov.alfatest.feignclients.GifClient;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,26 +23,34 @@ public class GifService {
     @Getter
     private String rating;
 
+    @Getter
+    @Setter
+    private GifResponseDTO responseDTO;
+
     public GifService(GifClient gifClient, QueryService queryService) {
         this.gifClient = gifClient;
         this.queryService = queryService;
     }
 
-    private GifResponseDTO getGifResponseDTO(RequestParameters requestParameters) {
-        String query = queryService.getGifQuery(requestParameters);
+    public String getRandomGifURL(RequestParameters requestParameters) {
+        responseDTO = getGifResponseDTO(requestParameters);
+        return getGifURL(responseDTO);
+    }
 
-        try {
-            app_id = requestParameters.getGiphyAppId();
-            rating = requestParameters.getGiphyRating();
-        } catch (NullPointerException e) {
+    private GifResponseDTO getGifResponseDTO(RequestParameters requestParameters) {
+        app_id = requestParameters.getGiphyAppId();
+        rating = requestParameters.getGiphyRating();
+
+        if (app_id == null || rating == null || app_id.trim().isEmpty() || rating.trim().isEmpty())
             throw new CommonAppException("Request parameters for giphy service must not be null");
-        }
+
+        String query = queryService.getGifQuery(requestParameters);
 
         return gifClient.getGif(app_id, query, rating);
     }
 
-    public String getRandomGifURL(RequestParameters requestParameters) {
-        GifResponseDTO responseDTO = getGifResponseDTO(requestParameters);
+    private String getGifURL(GifResponseDTO responseDTO) {
+        if (responseDTO == null) throw new CommonAppException("DTO must not be null");
 
         List<String> gifURLList = responseDTO.getOriginalURL();
         if (gifURLList.isEmpty()) throw new CommonAppException("No gifs were found for this query");
@@ -51,5 +60,4 @@ public class GifService {
 
         return responseDTO.getOriginalURL().get(index);
     }
-
 }

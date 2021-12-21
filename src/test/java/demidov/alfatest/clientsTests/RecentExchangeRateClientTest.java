@@ -35,21 +35,16 @@ public class RecentExchangeRateClientTest {
     @Autowired
     private RecentExchangeRateClient recentExchangeRateClient;
 
-    @Autowired
-    private HistoricalExchangeClient historicalExchangeClient;
-
     @Value("${exchangeAppId}")
     private String app_id;
 
     @Value("${comparingCurrency}")
     private String symbols;
 
-    private final String validDate = "2021-12-19";
 
     @BeforeEach
     void setUp() throws IOException {
         ClientsMocks.setupRecentExchangeResponse(mockExchangeServer);
-        ClientsMocks.setupHistoricalExchangeResponse(mockExchangeServer);
     }
 
     @Test
@@ -62,11 +57,4 @@ public class RecentExchangeRateClientTest {
         assertTrue(recentExchangeRateClient.getExchangeRate(app_id, symbols).getRates().containsKey("RUB"));
         assertTrue(recentExchangeRateClient.getExchangeRate(app_id, symbols).getRates().containsValue(74.204));
     }
-
-    @Test
-    public void whenGetHistorical_thenRatesShouldBeReturned() {
-        assertFalse(historicalExchangeClient.getHistoricalExcRate(validDate, app_id, symbols).getRates().isEmpty());
-
-    }
-
 }

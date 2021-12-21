@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import demidov.alfatest.feignclients.HistoricalExchangeClient;
 import demidov.alfatest.testconfig.ClientsMocks;
 import demidov.alfatest.testconfig.WireMockConfig;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +46,14 @@ public class HistoricalExchangeRateClientTest {
     @Value("${comparingCurrency}")
     private String symbols;
 
-    private final String validDate = "2021-12-19";
+    private static String validDate;
+
+    @BeforeAll
+    static void getDate() {
+        OffsetDateTime todayInUTC = OffsetDateTime.now(ZoneOffset.UTC);
+        LocalDate yesterdayInUTC = todayInUTC.minusDays(1).toLocalDate();
+        validDate = yesterdayInUTC.toString();
+    }
 
     @BeforeEach
     void setUp() throws IOException {

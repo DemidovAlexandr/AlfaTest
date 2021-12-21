@@ -46,29 +46,22 @@ public class ExchangeRateService {
 
     public ExchangeRateDTO getRecentExchangeRate(RequestParameters requestParameters) {
 
-        try {
-            app_id = requestParameters.getExchangeAppId();
-            currency = requestParameters.getComparingCurrency();
-        } catch (NullPointerException e) {
-            throw new CommonAppException("Request parameters for exchange service must not be null");
-        }
+        app_id = requestParameters.getExchangeAppId();
+        currency = requestParameters.getComparingCurrency();
 
-        if (currency.isBlank()) throw new CommonAppException("Currency code must not be empty");
+        if (app_id == null || currency == null || app_id.trim().isEmpty() || currency.trim().isEmpty())
+            throw new CommonAppException("Request parameters for exchange service must not be null");
 
         return recentExchangeRateClient.getExchangeRate(app_id, currency);
     }
 
     public ExchangeRateDTO getHistoricalExchangeRate(RequestParameters requestParameters) {
 
-        try {
-            app_id = requestParameters.getExchangeAppId();
-            currency = requestParameters.getComparingCurrency();
-        } catch (NullPointerException e) {
+        app_id = requestParameters.getExchangeAppId();
+        currency = requestParameters.getComparingCurrency();
+
+        if (app_id == null || currency == null || app_id.trim().isEmpty() || currency.trim().isEmpty())
             throw new CommonAppException("Request parameters for exchange service must not be null");
-        }
-
-        if (currency.isBlank()) throw new CommonAppException("Currency code must not be empty");
-
 
         return historicalExchangeClient.getHistoricalExcRate(yesterdayDate(), app_id, currency);
     }
@@ -80,6 +73,10 @@ public class ExchangeRateService {
     }
 
     public int compareRates(ExchangeRateDTO today, ExchangeRateDTO yesterday) {
+
+        if (today == null || yesterday == null)
+            throw new CommonAppException("ExchangeRateDTO must not be null");
+
         saveRates(today, yesterday);
 
         Map<String, Double> todayMap = todayDTO.getRates();
@@ -92,7 +89,7 @@ public class ExchangeRateService {
             Double todayRate = optionalDouble1.get();
             Double yesterdayRate = optionalDouble2.get();
 
-            if(todayRate >= yesterdayRate) return 1;
+            if (todayRate >= yesterdayRate) return 1;
             else return -1;
         } else throw new CommonAppException("No rates found for requested currency");
     }

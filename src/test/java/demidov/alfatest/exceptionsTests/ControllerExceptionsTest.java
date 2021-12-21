@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @TestPropertySource("classpath:application-test.properties")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-public class ExceptionsTest {
+public class ControllerExceptionsTest {
 
     @Autowired
     WebApplicationContext webApplicationContext;
@@ -55,7 +55,7 @@ public class ExceptionsTest {
         mockMvc.perform(get(uri).param("currency", validCurrency))
                 .andDo(document(uri.replace("/", "\\")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errors.[0]", Matchers.containsString("Currency code must not be empty")));
+                .andExpect(jsonPath("$.errors.[0]", Matchers.containsString("Request parameters for exchange service must not be null")));
     }
 
    @Test

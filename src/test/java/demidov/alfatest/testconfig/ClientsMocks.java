@@ -7,6 +7,9 @@ import org.springframework.http.MediaType;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 import static org.springframework.util.StreamUtils.copyToString;
 
@@ -24,7 +27,11 @@ public class ClientsMocks {
     }
 
     public static void setupHistoricalExchangeResponse(WireMockServer mockServer) throws IOException {
-        mockServer.stubFor(WireMock.get("/2021-12-19.json?app_id=30aaf5f53e3c4fcc8a4e57d950c76b71&symbols=RUB")
+        OffsetDateTime todayInUTC = OffsetDateTime.now(ZoneOffset.UTC);
+        LocalDate yesterdayInUTC = todayInUTC.minusDays(1).toLocalDate();
+        String date = yesterdayInUTC.toString();
+
+        mockServer.stubFor(WireMock.get("/" + date + ".json?app_id=30aaf5f53e3c4fcc8a4e57d950c76b71&symbols=RUB")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-type", MediaType.APPLICATION_JSON_VALUE)

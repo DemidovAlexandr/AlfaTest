@@ -23,13 +23,10 @@ public class QueryService {
 
     public String getGifQuery(RequestParameters requestParameters) {
 
-        try {
-            richQuery = requestParameters.getRichQuery();
-            brokeQuery = requestParameters.getBrokeQuery();
-            if (richQuery.isBlank() || brokeQuery.isBlank()) throw new CommonAppException("Query keywords parameters must not be empty");
-        } catch (NullPointerException e) {
+        richQuery = requestParameters.getRichQuery();
+        brokeQuery = requestParameters.getBrokeQuery();
+        if (richQuery == null || brokeQuery == null || richQuery.trim().isEmpty() || brokeQuery.trim().isEmpty())
             throw new CommonAppException("Query keywords parameters must not be null");
-        }
 
         ExchangeRateDTO yesterdayExcDTO = exchangeRateService.getHistoricalExchangeRate(requestParameters);
         ExchangeRateDTO todayExcDTO = exchangeRateService.getRecentExchangeRate(requestParameters);
