@@ -1,7 +1,6 @@
 package demidov.alfatest.clientsTests;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import demidov.alfatest.feignclients.HistoricalExchangeClient;
 import demidov.alfatest.feignclients.RecentExchangeRateClient;
 import demidov.alfatest.testconfig.ClientsMocks;
 import demidov.alfatest.testconfig.WireMockConfig;

@@ -4,10 +4,8 @@ import demidov.alfatest.config.RequestParameters;
 import demidov.alfatest.dto.ExchangeRateDTO;
 import demidov.alfatest.exceptions.CommonAppException;
 import demidov.alfatest.feignclients.HistoricalExchangeClient;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import demidov.alfatest.feignclients.RecentExchangeRateClient;
 
@@ -15,7 +13,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service

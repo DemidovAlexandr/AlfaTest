@@ -4,7 +4,6 @@ import demidov.alfatest.config.RequestParameters;
 import demidov.alfatest.dto.ExchangeRateDTO;
 import demidov.alfatest.exceptions.CommonAppException;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 @Service

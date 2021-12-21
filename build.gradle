@@ -55,3 +55,7 @@ asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+jar {
+    enabled = false
+}
