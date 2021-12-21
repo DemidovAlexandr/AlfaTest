@@ -3,7 +3,7 @@
 ## О проекте
 Простое web-приложение, сравнивающее курс выбранной валюты с USD и отображающее соответствующую GIF-картинку
 
-Запрос принимается на endpont /gif?currency, где currency - requestparam типа String *(код валюты, например "RUB")*
+Принимает запросы на endpont  `/gif?currency`, где currency - requestparam типа String *(код валюты, например "RUB")*
 
 Также имеет index-page с формой отправки запроса
 
@@ -13,7 +13,7 @@
   - Spring Web + ThymeLeaf
   - Spring Cloud (OpenFeign)
   - Spring RestDocs (MockMVC)
-  - Spring Test + WireMock v2.27.2 + Hamcrest v2.1
+  - Spring Test (JUnit 5, MockMVC) + WireMock v2.27.2 + Hamcrest v2.1
 * Lombok
 * Gradle 
 * Docker
@@ -34,7 +34,16 @@
 3. Docker контейнер
    - docker pull andemidov/alfa_test
    - docker run -p 8080:8080 image_name
-   
+
+## Использование
+По-умолчанию, приложение запускается на `http://localhost:8080/`
+
+При переходе по `/` будет отображена приветственная страница, где можно ввести код валюты для сравнения, либо сразу сравнить RUB
+
+Endpont `/gif?currency`принимает параметр currency с кодом валюты, отображает гифку и значения курсов валют за вчера и сегодня
+
+Настройка основных переменных приложения может быть осуществлена через application.properties файл
+
 ## Docker
 
 Проект собран в docker image с помощью Dockerfile (лежит в root-директории проекта). 
@@ -43,4 +52,5 @@
 
 ## Прочее
 * Покрытие тестами составляет 81%
-* Глобальные настройки приложения вынесены в application.properties
+* Бизнес-логика вынесена в отдельный слой сервисов
+* Реализованы ExceptionHandlers для контроллера
